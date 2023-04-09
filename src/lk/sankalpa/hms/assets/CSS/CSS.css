@@ -1,0 +1,50 @@
+#btn_login{
+
+    -fx-background-radius: 30 30 30 30;
+
+}
+#btn_fogot_password{
+
+    -fx-background-radius: 30 30 30 30;
+
+
+}
+
+#close_btn:hover{
+
+    -fx-background-color:  #4E4D53;
+
+}
+
+#change_pw_pane{
+
+    -fx-background-radius: 30 30 30 30;
+    -fx-background-image: url(../images/pexels-francesco-ungaro-281260.jpg);
+
+}
+
+change_pw_image{
+
+    -fx-background-radius: 30 30 30 30;
+
+}
+#txt_dob{
+    -fx-font-size: 20px ;
+}
+#btn_register{
+    -fx-background-radius: 30 30 30 30;
+}
+
+#btn_room_update{
+    -fx-background-radius: 30 30 30 30;
+}
+
+#btn_registers{
+    -fx-background-radius: 30 30 30 30;
+}
+#btn_rooms{
+    -fx-background-radius: 30 30 30 30;
+}
+#btn_room_reserve{
+    -fx-background-radius: 30 30 30 30;
+}
