@@ -22,4 +22,11 @@ public class Studentdto implements SuperEntity {
     private LocalDate bod;
     private String gender;
 
+    public Studentdto(String id, String name, String address, String number, LocalDate bod) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.number = number;
+        this.bod = bod;
+    }
 }

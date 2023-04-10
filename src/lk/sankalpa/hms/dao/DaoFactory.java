@@ -1,9 +1,8 @@
 package lk.sankalpa.hms.dao;
 
+import lk.sankalpa.hms.dao.custom.impl.RoomDaoImpl;
 import lk.sankalpa.hms.dao.custom.impl.StudentDaoImpl;
 import org.hibernate.Session;
-
-import java.sql.Connection;
 
 public class DaoFactory {
 
@@ -21,6 +20,8 @@ public class DaoFactory {
         switch (daoType){
 
             case STUDENT:return (T) new StudentDaoImpl(session);
+
+            case ROOM:return (T)new RoomDaoImpl(session);
 
             default:return null;
         }

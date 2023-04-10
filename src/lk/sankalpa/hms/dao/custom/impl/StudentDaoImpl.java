@@ -30,8 +30,6 @@ public class StudentDaoImpl implements StudentDao {
         try{
 
             session.save(entity);
-            transaction.commit();
-            JOptionPane.showMessageDialog(null, "Student Added Successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
 
 
         }catch (Exception e){

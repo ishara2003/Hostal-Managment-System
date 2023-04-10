@@ -29,7 +29,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Studentdto saveStudent(Session session,Studentdto studentdto) {
+    public Studentdto saveStudent(Studentdto studentdto) {
 
         Session session1 = FactoryConfigeration.getInstance().getSession();
 
@@ -40,7 +40,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Studentdto updateStudent(Session session, Studentdto studentdto) {
+    public Studentdto updateStudent( Studentdto studentdto) {
 
         Session session1 = FactoryConfigeration.getInstance().getSession();
 
@@ -52,7 +52,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Studentdto searchStudent(Session session, String Id) {
+    public Studentdto searchStudent( String Id) {
 
         Session session1 = FactoryConfigeration.getInstance().getSession();
 
@@ -63,7 +63,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void deleteStudent(Session session, String Id) {
+    public void deleteStudent( String Id) {
 
         studentDao.delete(Id,session);
 

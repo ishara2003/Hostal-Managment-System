@@ -1,5 +1,6 @@
 package lk.sankalpa.hms.service;
 
+import lk.sankalpa.hms.service.custom.impl.RoomServiceImpl;
 import lk.sankalpa.hms.service.custom.impl.StudentServiceImpl;
 
 public class ServiceFactory {
@@ -17,6 +18,7 @@ public class ServiceFactory {
         switch (serviceType){
 
             case STUDENT:return (T) new StudentServiceImpl();
+            case ROOM:return (T) new RoomServiceImpl();
 
             default:return null;
         }

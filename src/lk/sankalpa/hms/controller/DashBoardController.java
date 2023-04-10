@@ -17,16 +17,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import lk.sankalpa.hms.dto.Roomdto;
 import lk.sankalpa.hms.dto.Studentdto;
 import lk.sankalpa.hms.service.ServiceFactory;
 import lk.sankalpa.hms.service.ServiceTypes;
+import lk.sankalpa.hms.service.custom.RoomService;
 import lk.sankalpa.hms.service.custom.StudentService;
 import lk.sankalpa.hms.util.FactoryConfigeration;
 import lk.sankalpa.hms.view.tm.StudentTM;
 import org.hibernate.Session;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class DashBoardController {
 
@@ -207,10 +206,12 @@ public class DashBoardController {
 
     //==========================================================================================
     //==========================================================================================
-    public StudentService service;
+    public StudentService studentService;
+    public RoomService roomService;
     public void initialize(){
 
-        service= ServiceFactory.getInstance().getService(ServiceTypes.STUDENT);
+        studentService = ServiceFactory.getInstance().getService(ServiceTypes.STUDENT);
+        roomService=ServiceFactory.getInstance().getService(ServiceTypes.ROOM);
 
         fisrt_Pane.setVisible(true);
         loadAllStudent();
@@ -284,25 +285,11 @@ public class DashBoardController {
 
         Session session = FactoryConfigeration.getInstance().getSession();
 
-//        Button button = new Button("Delete");
-//
-//        List<StudentTM> collect = service.allStudents(session).stream().map(students ->
-//                new StudentTM(
-//                        students.getId(),
-//                        students.getName(),
-//                        students.getAddress(),
-//                        students.getNumber(),
-//                        students.getBod(),
-//                        students.getGender(),
-//                        button)).collect(Collectors.toList());
-//
-//        tbl_student.setItems(FXCollections.observableArrayList(collect));
-
 
         ObservableList<StudentTM> objects = FXCollections.observableArrayList();
 
 
-        for (Studentdto ss:service.allStudents(session)) {
+        for (Studentdto ss: studentService.allStudents(session)) {
             Button button1 = new Button("Delete");
             StudentTM studentTM = new StudentTM(ss.getId(),
                     ss.getName(),
@@ -315,7 +302,7 @@ public class DashBoardController {
             button1.setOnAction(event -> {
                 tbl_student.getItems().removeAll(tbl_student.getSelectionModel().getSelectedItem());
 
-                service.deleteStudent(session,studentTM.getId());
+                studentService.deleteStudent(studentTM.getId());
 
             });
 
@@ -350,11 +337,9 @@ public class DashBoardController {
 
         btn_register.setText("Update");
 
-        Session session = FactoryConfigeration.getInstance().getSession();
+        Studentdto studentdto = studentService.searchStudent( txt_search_studenr.getText());
 
-        Studentdto studentdto = service.searchStudent(session, txt_search_studenr.getText());
-
-        if(studentdto!=null){
+        if(studentdto.getGender().equals(R_btn_Male.getText())){
 
             txt_student_id.setText(studentdto.getId());
             txt_student_name.setText(studentdto.getName());
@@ -365,16 +350,40 @@ public class DashBoardController {
 
         }
 
+
+         if(studentdto.getGender().equals(R_btn_female.getText())){
+
+            txt_student_id.setText(studentdto.getId());
+            txt_student_name.setText(studentdto.getName());
+            txt_student_address.setText(studentdto.getAddress());
+            txt_student_number.setText(studentdto.getNumber());
+            txt_student_dob.setValue(studentdto.getBod());
+            R_btn_female.setSelected(true);
+
+        }
+
+
+         if(studentdto.getGender().equals(R_btn_others.getText())){
+
+            txt_student_id.setText(studentdto.getId());
+            txt_student_name.setText(studentdto.getName());
+            txt_student_address.setText(studentdto.getAddress());
+            txt_student_number.setText(studentdto.getNumber());
+            txt_student_dob.setValue(studentdto.getBod());
+            R_btn_others.setSelected(true);
+
+        }
+
     }
 
     public void btn_Student_register_On_Actoin(ActionEvent actionEvent) {
-        Session session = FactoryConfigeration.getInstance().getSession();
+
 
         if(btn_register.getText().equals("Register")) {
 
             if (R_btn_Male.isSelected()) {
 
-                Studentdto studentdto = service.saveStudent(session, new Studentdto(
+                Studentdto studentdto = studentService.saveStudent( new Studentdto(
 
                         txt_student_id.getText(),
                         txt_student_name.getText(),
@@ -384,21 +393,55 @@ public class DashBoardController {
                         R_btn_Male.getText()));
 
             }
+
+
+
+            if (R_btn_female.isSelected()) {
+
+                Studentdto studentdto = studentService.saveStudent( new Studentdto(
+
+                        txt_student_id.getText(),
+                        txt_student_name.getText(),
+                        txt_student_address.getText(),
+                        txt_student_number.getText(),
+                        txt_student_dob.getValue()));
+//                        R_btn_female.getText()));
+
+            }
+
+
+            if (R_btn_others.isSelected()) {
+
+                Studentdto studentdto = studentService.saveStudent( new Studentdto(
+
+                        txt_student_id.getText(),
+                        txt_student_name.getText(),
+                        txt_student_address.getText(),
+                        txt_student_number.getText(),
+                        txt_student_dob.getValue()));
+//                        R_btn_others.getText()));
+
+            }
+
+
+
+
+
             }
         if (btn_register.getText().equals("Update")) {
 
-            service.updateStudent(session, new Studentdto(
+            studentService.updateStudent( new Studentdto(
 
                     txt_student_id.getText(),
                     txt_student_name.getText(),
                     txt_student_address.getText(),
                     txt_student_number.getText(),
-                    txt_student_dob.getValue(),
-                    R_btn_Male.getText()));
+                    txt_student_dob.getValue()));
+                    //R_btn_Male.getText()));
 
         }
 
-
+loadAllStudent();
     }
 
     public void change_btn_On_Action(MouseEvent mouseEvent) {
@@ -420,11 +463,18 @@ public class DashBoardController {
     @FXML
     void btn_New_Room_On_Action(ActionEvent event) {
 
+
     }
 
     @FXML
     void btn_Room_Update_On_Action(ActionEvent event) {
-
+        roomService.saveRoom(new Roomdto(
+                txt_room_Id.getText(),
+                txt_room_type.getText(),
+                Double.parseDouble(txt_room_price.getText()),
+                Integer.parseInt(txt_room_qty.getText())
+        ));
+        System.out.println("Sdfsdfsdf");
     }
 
 

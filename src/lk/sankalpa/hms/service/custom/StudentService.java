@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface StudentService extends SuperService {
 
-    Studentdto saveStudent(Session session, Studentdto studentdto);
-    Studentdto updateStudent(Session session, Studentdto studentdto);
-    Studentdto searchStudent(Session session, String Id);
-    void deleteStudent(Session session, String Id);
+    Studentdto saveStudent( Studentdto studentdto);
+    Studentdto updateStudent( Studentdto studentdto);
+    Studentdto searchStudent( String Id);
+    void deleteStudent( String Id);
     List<Studentdto>allStudents(Session session);
 
 }
