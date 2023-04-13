@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -38,6 +39,7 @@
                   <Font size="18.0" />
                </font>
             </JFXPasswordField>
+            <FontAwesomeIcon fx:id="txt_hide_password_icon" glyphName="EYE_SLASH" layoutX="1192.0" layoutY="389.0" onMouseClicked="#txt_hide_password_icon_On_Action" />
             <JFXButton fx:id="btn_login" layoutX="845.0" layoutY="464.0" onAction="#btm_Login_On_Action" prefHeight="65.0" prefWidth="189.0" stylesheets="@../assets/CSS/CSS.css" text="Login" textFill="#2200ff">
                <font>
                   <Font name="Times New Roman Bold" size="30.0" />
@@ -87,6 +89,12 @@
                   <Line endX="211.0" layoutX="192.0" layoutY="78.0" startX="-100.0" />
                </children>
             </Pane>
+            <FontAwesomeIcon fx:id="txt_view_password_icon" glyphName="EYE" layoutX="1192.0" layoutY="389.0" onMouseClicked="#txt_view_password_icon_On_Action" visible="false" />
+            <JFXTextField fx:id="txt_view_password" alignment="CENTER" layoutX="915.0" layoutY="361.0" prefHeight="39.0" prefWidth="272.0" visible="false">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXTextField>
          </children></AnchorPane>
       <JFXButton fx:id="close_btn" layoutX="1879.0" onAction="#close_On_Acion" prefHeight="34.0" prefWidth="27.0" stylesheets="@../assets/CSS/CSS.css" text=" ">
          <graphic>

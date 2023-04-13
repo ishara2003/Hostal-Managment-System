@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Reservation {
+public class Reservation implements SuperEntity {
 
     @Id
     private String res_id;

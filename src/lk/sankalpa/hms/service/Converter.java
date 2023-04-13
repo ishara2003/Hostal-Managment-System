@@ -9,13 +9,18 @@ public class Converter {
 
     public Studentdto fromStudent(Student student){
 
-        return new Studentdto(student.getId(), student.getName(), student.getAddress(), student.getNumber(), student.getBod(), student.getGender());
+        return new Studentdto(student.getId(), student.getName(), student.getAddress(), student.getNumber(), student.getBod(), student.getGender(),student.getReservationList());
 
     }
 
     public Student toStudent(Studentdto studentdto){
 
-        return new Student(studentdto.getId(), studentdto.getName(), studentdto.getAddress(), studentdto.getNumber(), studentdto.getBod(), studentdto.getGender());
+        return new Student(studentdto.getId(),
+                studentdto.getName(),
+                studentdto.getAddress(),
+                studentdto.getNumber(),
+                studentdto.getBod(),
+                studentdto.getGender());
 
     }
 
@@ -24,7 +29,7 @@ public class Converter {
     }
 
     public Roomdto fromRoom(Room room){
-        return  new Roomdto(room.getRoomId(), room.getType(), room.getKeymoney(), room.getQyt());
+        return  new Roomdto(room.getRoomId(), room.getType(), room.getKeymoney(), room.getQyt(),room.getReservationList());
     }
 
 

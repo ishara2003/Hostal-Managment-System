@@ -20,8 +20,13 @@ public class Room implements SuperEntity {
     private String type;
     private double keymoney;
     private int qyt;
-//    @OneToMany(mappedBy = "room", targetEntity = Reservation.class)
-//    List<Reservation> reservationList = new ArrayList<>();
+    @OneToMany(mappedBy = "room", targetEntity = Reservation.class)
+    List<Reservation> reservationList = new ArrayList<>();
 
-
+    public Room(String roomId, String type, double keymoney, int qyt) {
+        this.roomId = roomId;
+        this.type = type;
+        this.keymoney = keymoney;
+        this.qyt = qyt;
+    }
 }

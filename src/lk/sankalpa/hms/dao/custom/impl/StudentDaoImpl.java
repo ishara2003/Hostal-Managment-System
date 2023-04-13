@@ -54,7 +54,8 @@ public class StudentDaoImpl implements StudentDao {
                     student.getAddress(),
                     student.getNumber(),
                     student.getBod(),
-                    student.getGender());
+                    student.getGender(),
+                    student.getReservationList());
 
         }catch (Exception e){
 

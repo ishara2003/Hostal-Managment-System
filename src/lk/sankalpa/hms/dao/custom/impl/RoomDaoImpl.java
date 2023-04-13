@@ -43,10 +43,11 @@ public class RoomDaoImpl implements RoomDao {
         Room room = session.find(Room.class, Id);
 
         return new Room(
-                room.getRoomId(),
+        room.getRoomId(),
         room.getType(),
         room.getKeymoney(),
-                room.getQyt()
+        room.getQyt(),
+        room.getReservationList()
 
         );
 

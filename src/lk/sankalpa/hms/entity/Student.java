@@ -26,8 +26,15 @@ public class Student implements SuperEntity{
     private String number;
     private LocalDate bod;
     private String gender;
-//    @OneToMany(mappedBy = "student", targetEntity = Reservation.class)
-//    List<Reservation> reservationList = new ArrayList<>();
+    @OneToMany(mappedBy = "student", targetEntity = Reservation.class)
+    List<Reservation> reservationList = new ArrayList<>();
 
-
+    public Student(String id, String name, String address, String number, LocalDate bod, String gender) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.number = number;
+        this.bod = bod;
+        this.gender = gender;
+    }
 }

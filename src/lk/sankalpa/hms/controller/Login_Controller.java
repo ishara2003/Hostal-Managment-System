@@ -5,6 +5,7 @@ import animatefx.animation.ZoomOut;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
@@ -33,10 +34,24 @@ public class Login_Controller {
     public JFXTextField txt_ch_user_name;
     public JFXTextField txt_new_password;
     public JFXTextField txt_conferm_password;
+    public FontAwesomeIcon txt_hide_password_icon;
+    public FontAwesomeIcon txt_view_password_icon;
+    public JFXTextField txt_view_password;
 
     public void initialize(){
 
        change_pw_pane.setVisible(false);
+
+
+
+
+        txt_view_password_icon.setVisible(false);
+        txt_view_password.setVisible(false);
+
+        txt_password.setOnKeyReleased(event -> txt_view_password.setText(txt_password.getText()));
+
+        txt_view_password.setOnKeyReleased(event -> txt_password.setText(txt_view_password.getText()));
+
 
     }
     String un="Ishara";
@@ -83,6 +98,27 @@ public class Login_Controller {
 
     public void txt_Conferm_Password_On_Action(ActionEvent actionEvent) {
 
+
+
+    }
+
+    public void txt_hide_password_icon_On_Action(MouseEvent mouseEvent) {
+
+        txt_view_password.setVisible(false);
+        txt_hide_password_icon.setVisible(false);
+        txt_password.setVisible(true);
+        txt_view_password_icon.setVisible(true);
+
+
+    }
+
+    public void txt_view_password_icon_On_Action(MouseEvent mouseEvent) {
+
+        /*txtPassword.setVisible(f);*/
+        txt_password.setVisible(false);
+        txt_view_password_icon.setVisible(false);
+        txt_view_password.setVisible(true);
+        txt_hide_password_icon.setVisible(true);
 
 
     }
