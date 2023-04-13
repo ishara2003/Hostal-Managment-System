@@ -71,6 +71,7 @@ public class Login_Controller {
         if(txt_user_name.getText().equals(un)||txt_password.getText().equals(pw)){
 
             Navigation.navigate(Routes.PAGE_ONE,content_Page );
+
         }
 
     }

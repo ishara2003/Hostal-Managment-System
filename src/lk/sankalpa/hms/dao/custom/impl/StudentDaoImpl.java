@@ -26,15 +26,7 @@ public class StudentDaoImpl implements StudentDao {
     @Override
     public Student save(Student entity, Session session) {
 
-        Transaction transaction = session.beginTransaction();
-        try{
-
             session.save(entity);
-
-
-        }catch (Exception e){
-            transaction.rollback();
-        }
 
         return entity;
     }
@@ -42,26 +34,19 @@ public class StudentDaoImpl implements StudentDao {
     @Override
     public Student update(Student entity ,Session session) {
 
-        Transaction transaction = session.beginTransaction();
+                    session.update(entity);
 
-        try{
-            session.update(entity);
-            transaction.commit();
-            new Alert(Alert.AlertType.INFORMATION,"Student Updated Successfuly");
-        }catch (Exception e){
-            transaction.rollback();
-        }
-return entity;
+            return entity;
     }
 
     @Override
     public Student search(String Id ,Session session) {
-        Transaction transaction = session.beginTransaction();
+
 
         try{
 
             Student student = session.find(Student.class, Id);
-            transaction.commit();
+
             return new Student(
 
                     student.getId(),
@@ -80,19 +65,9 @@ return null;
     @Override
     public void delete(String Id ,Session session) {
 
-        Transaction transaction = session.beginTransaction();
 
-        try{
             Student load = session.load(Student.class, Id);
             session.delete(load);
-            transaction.commit();
-
-        }catch (Exception e){
-
-            transaction.rollback();
-
-        }
-
     }
 
     @Override

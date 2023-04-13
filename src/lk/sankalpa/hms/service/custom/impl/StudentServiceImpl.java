@@ -9,6 +9,7 @@ import lk.sankalpa.hms.service.Converter;
 import lk.sankalpa.hms.service.custom.StudentService;
 import lk.sankalpa.hms.util.FactoryConfigeration;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.sql.Connection;
 import java.util.List;
@@ -32,9 +33,16 @@ public class StudentServiceImpl implements StudentService {
     public Studentdto saveStudent(Studentdto studentdto) {
 
         Session session1 = FactoryConfigeration.getInstance().getSession();
+        Transaction transaction = session1.beginTransaction();
+        try{
 
-        Student save = studentDao.save(converter.toStudent(studentdto), session1);
+        studentDao.save(converter.toStudent(studentdto), session1);
+        transaction.commit();
         session1.close();
+        }catch (Exception e){
+            transaction.rollback();
+        }
+
         return studentdto;
 
     }
@@ -43,9 +51,17 @@ public class StudentServiceImpl implements StudentService {
     public Studentdto updateStudent( Studentdto studentdto) {
 
         Session session1 = FactoryConfigeration.getInstance().getSession();
+        Transaction transaction = session1.beginTransaction();
 
+        try{
         studentDao.update(converter.toStudent(studentdto),session1);
+        transaction.commit();
         session1.close();
+
+        }catch (Exception e){
+            transaction.rollback();
+        }
+
         return studentdto;
 
 

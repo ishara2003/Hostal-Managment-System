@@ -24,6 +24,7 @@ import lk.sankalpa.hms.service.ServiceTypes;
 import lk.sankalpa.hms.service.custom.RoomService;
 import lk.sankalpa.hms.service.custom.StudentService;
 import lk.sankalpa.hms.util.FactoryConfigeration;
+import lk.sankalpa.hms.view.tm.RoomTM;
 import lk.sankalpa.hms.view.tm.StudentTM;
 import org.hibernate.Session;
 
@@ -117,7 +118,7 @@ public class DashBoardController {
     private Pane second_pane;
 
     @FXML
-    private JFXComboBox<?> C_box_romm_id;
+    private JFXComboBox<String> C_box_romm_id;
 
     @FXML
     private JFXButton btn_new_romm;
@@ -135,10 +136,10 @@ public class DashBoardController {
     private JFXButton btn_room_update;
 
     @FXML
-    private TableView<?> tbl_room;
+    private TableView<RoomTM> tbl_room;
 
     @FXML
-    private TableColumn<?, ?> col_room_ID;
+    private TableColumn<RoomTM, String> col_room_ID;
 
     @FXML
     private TableColumn<?, ?> col_room_Type;
@@ -215,6 +216,8 @@ public class DashBoardController {
 
         fisrt_Pane.setVisible(true);
         loadAllStudent();
+        loadAllRooms();
+        loadAllIDs();
 
 
         col_s_ID.setCellValueFactory(new PropertyValueFactory<StudentTM,String>("id"));
@@ -224,6 +227,13 @@ public class DashBoardController {
         col_s_DOB.setCellValueFactory(new PropertyValueFactory<>("bod"));
         col_s_Gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
         col_s_Option.setCellValueFactory(new PropertyValueFactory<>("button"));
+
+
+        col_room_ID.setCellValueFactory(new PropertyValueFactory<RoomTM,String>("roomId"));
+        col_room_Type.setCellValueFactory(new PropertyValueFactory<>("type"));
+        col_room_Price.setCellValueFactory(new PropertyValueFactory<>("keymoney"));
+        col_room_Qty.setCellValueFactory(new PropertyValueFactory<>("qyt"));
+        col_room_Option.setCellValueFactory(new PropertyValueFactory<>("button"));
 
     }
 
@@ -313,11 +323,44 @@ public class DashBoardController {
         }
     }
 
+    public void loadAllRooms(){
+
+        Session session = FactoryConfigeration.getInstance().getSession();
+
+
+        ObservableList<RoomTM> objects = FXCollections.observableArrayList();
+
+
+        for (Roomdto ss: roomService.addRoomes(session)) {
+            Button button1 = new Button("Delete");
+
+            RoomTM roomTM = new RoomTM(
+                    ss.getRoomId(),
+                    ss.getType(),
+                    ss.getKeymoney(),
+                    ss.getQyt(),
+                    button1);
+
+            button1.setOnAction(event -> {
+                tbl_room.getItems().removeAll(tbl_room.getSelectionModel().getSelectedItem());
+
+                roomService.deleteRoom(roomTM.getRoomId());
+
+            });
+
+
+            objects.add(roomTM);
+            tbl_room.setItems(objects);
+
+        }
+
+    }
+
+
+
 
     @FXML
     void btn_Fore(ActionEvent event) {
-
-
 
 //        if(thier_Pane.isVisible()){
 //            new SlideOutRight(thier_Pane).play();
@@ -404,8 +447,8 @@ public class DashBoardController {
                         txt_student_name.getText(),
                         txt_student_address.getText(),
                         txt_student_number.getText(),
-                        txt_student_dob.getValue()));
-//                        R_btn_female.getText()));
+                        txt_student_dob.getValue(),
+                        R_btn_female.getText()));
 
             }
 
@@ -418,16 +461,11 @@ public class DashBoardController {
                         txt_student_name.getText(),
                         txt_student_address.getText(),
                         txt_student_number.getText(),
-                        txt_student_dob.getValue()));
-//                        R_btn_others.getText()));
+                        txt_student_dob.getValue(),
+                        R_btn_others.getText()));
 
             }
-
-
-
-
-
-            }
+     }
         if (btn_register.getText().equals("Update")) {
 
             studentService.updateStudent( new Studentdto(
@@ -457,24 +495,66 @@ loadAllStudent();
     @FXML
     void C_box_romm_id_On_Action(ActionEvent event) {
 
+
+        Roomdto roomdto = roomService.searchRoom(C_box_romm_id.getSelectionModel().getSelectedItem());
+
+        txt_room_Id.setText(roomdto.getRoomId());
+                txt_room_type.setText(roomdto.getType());
+        txt_room_price.setText(String.valueOf(roomdto.getKeymoney()));
+                txt_room_qty.setText(String.valueOf(roomdto.getQyt()));
+
+
+    }
+
+    public void loadAllIDs(){
+        Session session = FactoryConfigeration.getInstance().getSession();
+
+        ObservableList<String> observableList = FXCollections.observableArrayList(roomService.roomIDs(session));
+
+        C_box_romm_id.setItems(observableList);
     }
 
 
     @FXML
     void btn_New_Room_On_Action(ActionEvent event) {
 
+        btn_room_update.setText("Add");
 
     }
 
     @FXML
     void btn_Room_Update_On_Action(ActionEvent event) {
-        roomService.saveRoom(new Roomdto(
-                txt_room_Id.getText(),
-                txt_room_type.getText(),
-                Double.parseDouble(txt_room_price.getText()),
-                Integer.parseInt(txt_room_qty.getText())
-        ));
-        System.out.println("Sdfsdfsdf");
+
+        if (btn_room_update.getText().equals("Add")) {
+
+            roomService.saveRoom(new Roomdto(
+                    txt_room_Id.getText(),
+                    txt_room_type.getText(),
+                    Double.parseDouble(txt_room_price.getText()),
+                    Integer.parseInt(txt_room_qty.getText())
+            ));
+            loadAllRooms();
+            loadAllIDs();
+
+            txt_room_Id.clear();
+                    txt_room_type.clear();
+            txt_room_price.clear();
+                    txt_room_qty.clear();
+
+
+        }
+
+        if(btn_room_update.getText().equals("Update")){
+
+            roomService.updateRoom(new Roomdto(
+                    txt_room_Id.getText(),
+                    txt_room_type.getText(),
+                   Double.parseDouble( txt_room_price.getText()),
+                   Integer.parseInt( txt_room_qty.getText())
+            ));
+
+        }
+
     }
 
 
