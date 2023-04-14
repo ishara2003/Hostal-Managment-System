@@ -1,5 +1,7 @@
 package lk.sankalpa.hms.entity;
 
+import lk.sankalpa.hms.dto.Roomdto;
+import lk.sankalpa.hms.dto.Studentdto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +26,7 @@ public class Reservation implements SuperEntity {
     @ToString.Exclude
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Room room;
+
 
 }
 

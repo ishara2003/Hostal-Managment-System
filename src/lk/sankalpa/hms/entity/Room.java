@@ -29,4 +29,8 @@ public class Room implements SuperEntity {
         this.keymoney = keymoney;
         this.qyt = qyt;
     }
+
+    public Room(String roomId) {
+        this.roomId = roomId;
+    }
 }

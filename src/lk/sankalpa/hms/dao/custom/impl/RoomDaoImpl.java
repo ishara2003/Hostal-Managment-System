@@ -46,8 +46,7 @@ public class RoomDaoImpl implements RoomDao {
         room.getRoomId(),
         room.getType(),
         room.getKeymoney(),
-        room.getQyt(),
-        room.getReservationList()
+        room.getQyt()
 
         );
 
@@ -94,4 +93,5 @@ public class RoomDaoImpl implements RoomDao {
 
 
     }
+
 }

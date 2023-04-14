@@ -17,19 +17,29 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import lk.sankalpa.hms.dto.Reservationdto;
 import lk.sankalpa.hms.dto.Roomdto;
 import lk.sankalpa.hms.dto.Studentdto;
 import lk.sankalpa.hms.service.ServiceFactory;
 import lk.sankalpa.hms.service.ServiceTypes;
+import lk.sankalpa.hms.service.custom.ReservationService;
 import lk.sankalpa.hms.service.custom.RoomService;
 import lk.sankalpa.hms.service.custom.StudentService;
 import lk.sankalpa.hms.util.FactoryConfigeration;
+import lk.sankalpa.hms.view.tm.ReservationTM;
 import lk.sankalpa.hms.view.tm.RoomTM;
 import lk.sankalpa.hms.view.tm.StudentTM;
 import org.hibernate.Session;
 
 public class DashBoardController {
 
+    public TableColumn col_Res_Date;
+    public JFXComboBox C_box_romm_id1;
+    public JFXRadioButton R_btn_done;
+    public ToggleGroup Payments;
+    public JFXRadioButton R_btn_later;
+    public JFXTextField Res_ID;
+    public RadioButton Reservation_Payments_done;
     @FXML
     private AnchorPane dash_board_pane;
 
@@ -181,10 +191,10 @@ public class DashBoardController {
     private JFXTextField txt_do_payments;
 
     @FXML
-    private TableView<?> tbl_Resavation;
+    private TableView<ReservationTM> tbl_Resavation;
 
     @FXML
-    private TableColumn<?, ?> col_Res_ID;
+    private TableColumn<ReservationTM, String> col_Res_ID;
 
     @FXML
     private TableColumn<?, ?> col_Res_Student_Name;
@@ -209,22 +219,25 @@ public class DashBoardController {
     //==========================================================================================
     public StudentService studentService;
     public RoomService roomService;
+    public ReservationService reservationService;
     public void initialize(){
 
         studentService = ServiceFactory.getInstance().getService(ServiceTypes.STUDENT);
         roomService=ServiceFactory.getInstance().getService(ServiceTypes.ROOM);
+        reservationService=ServiceFactory.getInstance().getService(ServiceTypes.RESERVATION);
 
         fisrt_Pane.setVisible(true);
         loadAllStudent();
         loadAllRooms();
         loadAllIDs();
-
+        LoadIDSOnRegistration();
+        loadAllReservations();
 
         col_s_ID.setCellValueFactory(new PropertyValueFactory<StudentTM,String>("id"));
         col_s_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_s_Address.setCellValueFactory(new PropertyValueFactory<>("address"));
         col_s_Number.setCellValueFactory(new PropertyValueFactory<>("number"));
-        col_s_DOB.setCellValueFactory(new PropertyValueFactory<>("bod"));
+        col_s_DOB.setCellValueFactory(new PropertyValueFactory<>("dob"));
         col_s_Gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
         col_s_Option.setCellValueFactory(new PropertyValueFactory<>("button"));
 
@@ -234,6 +247,14 @@ public class DashBoardController {
         col_room_Price.setCellValueFactory(new PropertyValueFactory<>("keymoney"));
         col_room_Qty.setCellValueFactory(new PropertyValueFactory<>("qyt"));
         col_room_Option.setCellValueFactory(new PropertyValueFactory<>("button"));
+
+
+        col_Res_ID.setCellValueFactory(new PropertyValueFactory<ReservationTM,String>("res_id"));
+        col_Res_Student_Name.setCellValueFactory(new PropertyValueFactory<>("student"));
+        col_Res_Room_Type.setCellValueFactory(new PropertyValueFactory<>("room"));
+        col_Res_Remain_Payments.setCellValueFactory(new PropertyValueFactory<>("status"));
+        col_Res_Date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        col_Res_Options.setCellValueFactory(new PropertyValueFactory<>("button"));
 
     }
 
@@ -331,7 +352,7 @@ public class DashBoardController {
         ObservableList<RoomTM> objects = FXCollections.observableArrayList();
 
 
-        for (Roomdto ss: roomService.addRoomes(session)) {
+        for (Roomdto ss: roomService.allRooms(session)) {
             Button button1 = new Button("Delete");
 
             RoomTM roomTM = new RoomTM(
@@ -356,8 +377,34 @@ public class DashBoardController {
 
     }
 
+    public void loadAllReservations(){
+        Session session = FactoryConfigeration.getInstance().getSession();
+
+        ObservableList<ReservationTM> objects = FXCollections.observableArrayList();
+
+        for (Reservationdto reservationdto :reservationService.allReservatines(session)){
+
+            Button button = new Button("Delete");
+
+            ReservationTM reservationTM = new ReservationTM(
+                    reservationdto.getRes_id(),
+                    reservationdto.getDate(),
+                    reservationdto.getStatus(),
+                    reservationdto.getStudent().getId(),
+                    reservationdto.getRoom().getRoomId(),
+                    button);
+
+            button.setOnAction(event -> {
+                tbl_Resavation.getItems().removeAll(tbl_Resavation.getSelectionModel().getSelectedItem());
 
 
+
+        });
+            objects.add(reservationTM);
+            tbl_Resavation.setItems(objects);
+
+    }
+    }
 
     @FXML
     void btn_Fore(ActionEvent event) {
@@ -379,6 +426,7 @@ public class DashBoardController {
     public void search_On_Action(ActionEvent actionEvent) {
 
         btn_register.setText("Update");
+
 
         Studentdto studentdto = studentService.searchStudent( txt_search_studenr.getText());
 
@@ -420,8 +468,27 @@ public class DashBoardController {
     }
 
     public void btn_Student_register_On_Actoin(ActionEvent actionEvent) {
-
-
+//
+//        Session session = FactoryConfigeration.getInstance().getSession();
+//
+//        Studentdto studentdto1 = new Studentdto();
+//        studentdto1.getId();
+//
+//        Roomdto roomdto = roomService.searchRoom(txt_room_type.getText());
+//
+//
+//        if(cb_later.isSelected()) {
+//
+//            reservationService.addReservation(
+//                    new Reservationdto(
+//                            lbl_rasavation_ID.getText(),
+//                            txt_date_of_registration.getValue(),
+//                            cb_later.getText(),
+//                            studentdto1,
+//                            roomdto
+//
+//                    ));
+//        }
         if(btn_register.getText().equals("Register")) {
 
             if (R_btn_Male.isSelected()) {
@@ -441,7 +508,7 @@ public class DashBoardController {
 
             if (R_btn_female.isSelected()) {
 
-                Studentdto studentdto = studentService.saveStudent( new Studentdto(
+               studentService.saveStudent( new Studentdto(
 
                         txt_student_id.getText(),
                         txt_student_name.getText(),
@@ -455,7 +522,7 @@ public class DashBoardController {
 
             if (R_btn_others.isSelected()) {
 
-                Studentdto studentdto = studentService.saveStudent( new Studentdto(
+             studentService.saveStudent( new Studentdto(
 
                         txt_student_id.getText(),
                         txt_student_name.getText(),
@@ -479,6 +546,8 @@ public class DashBoardController {
 
         }
 
+        resavation_date.setValue(txt_date_of_registration.getValue());
+
 loadAllStudent();
     }
 
@@ -492,27 +561,7 @@ loadAllStudent();
 
 
 
-    @FXML
-    void C_box_romm_id_On_Action(ActionEvent event) {
 
-
-        Roomdto roomdto = roomService.searchRoom(C_box_romm_id.getSelectionModel().getSelectedItem());
-
-        txt_room_Id.setText(roomdto.getRoomId());
-                txt_room_type.setText(roomdto.getType());
-        txt_room_price.setText(String.valueOf(roomdto.getKeymoney()));
-                txt_room_qty.setText(String.valueOf(roomdto.getQyt()));
-
-
-    }
-
-    public void loadAllIDs(){
-        Session session = FactoryConfigeration.getInstance().getSession();
-
-        ObservableList<String> observableList = FXCollections.observableArrayList(roomService.roomIDs(session));
-
-        C_box_romm_id.setItems(observableList);
-    }
 
 
     @FXML
@@ -565,6 +614,7 @@ loadAllStudent();
 
 
 
+
     }
 
     @FXML
@@ -572,4 +622,66 @@ loadAllStudent();
 
     }
 
+    public void C_box_romm_id_On_Action2(ActionEvent actionEvent) {
+
+        Roomdto roomdto = roomService.searchRoom((String) C_box_romm_id1.getSelectionModel().getSelectedItem());
+
+        txt_student_room_type.setText(roomdto.getType());
+
+
+    }
+    @FXML
+    void C_box_romm_id_On_Action(ActionEvent event) {
+
+
+        Roomdto roomdto = roomService.searchRoom(C_box_romm_id.getSelectionModel().getSelectedItem());
+
+        txt_room_Id.setText(roomdto.getRoomId());
+                txt_room_type.setText(roomdto.getType());
+        txt_room_price.setText(String.valueOf(roomdto.getKeymoney()));
+                txt_room_qty.setText(String.valueOf(roomdto.getQyt()));
+
+
+    }
+
+    public void loadAllIDs(){
+        Session session = FactoryConfigeration.getInstance().getSession();
+
+        ObservableList<String> observableList = FXCollections.observableArrayList(roomService.roomIDs(session));
+
+        C_box_romm_id.setItems(observableList);
+
+    }
+    public void LoadIDSOnRegistration(){
+        Session session = FactoryConfigeration.getInstance().getSession();
+
+        ObservableList<String> observableList = FXCollections.observableArrayList(roomService.roomIDs(session));
+
+
+        C_box_romm_id1.setItems(observableList);
+    }
+
+    public void Reservation_Save_On_Action(ActionEvent actionEvent) {
+
+        Studentdto student = new Studentdto();
+        student.setId(txt_student_id.getText());
+
+        Roomdto room = new Roomdto();
+        room.setRoomId((String) C_box_romm_id1.getValue());
+        System.out.println(room);
+
+        if(R_btn_done.isSelected()) {
+
+            reservationService.addReservation(new Reservationdto(
+
+
+                    Res_ID.getText(),
+                    resavation_date.getValue(),
+                    R_btn_done.getText(),
+                    student,
+                    room));
+
+        }
+
+    }
 }

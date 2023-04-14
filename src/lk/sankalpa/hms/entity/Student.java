@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +23,7 @@ public class Student implements SuperEntity{
     private String number;
     private LocalDate bod;
     private String gender;
-    @OneToMany(mappedBy = "student", targetEntity = Reservation.class)
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     List<Reservation> reservationList = new ArrayList<>();
 
     public Student(String id, String name, String address, String number, LocalDate bod, String gender) {
@@ -36,5 +33,9 @@ public class Student implements SuperEntity{
         this.number = number;
         this.bod = bod;
         this.gender = gender;
+    }
+
+    public Student(String id) {
+        this.id = id;
     }
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXRadioButton?>
@@ -9,6 +8,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -90,7 +90,7 @@
                   <Font size="18.0" />
                </font>
             </JFXButton>
-            <JFXDatePicker fx:id="txt_student_dob" layoutX="237.0" layoutY="360.0" prefHeight="32.0" prefWidth="268.0" promptText="Student Date of Birth" stylesheets="@../assets/CSS/CSS.css" />
+            <JFXDatePicker fx:id="txt_student_dob" layoutX="61.0" layoutY="366.0" prefHeight="32.0" prefWidth="268.0" promptText="Student Date of Birth" stylesheets="@../assets/CSS/CSS.css" />
             <TableView fx:id="tbl_student" layoutX="741.0" layoutY="129.0" prefHeight="681.0" prefWidth="1155.0">
               <columns>
                 <TableColumn fx:id="col_s_ID" prefWidth="165.0" text="Student Id" />
@@ -113,21 +113,30 @@
                </image>
             </ImageView>
             <JFXDatePicker fx:id="txt_date_of_registration" layoutX="237.0" layoutY="608.0" prefHeight="32.0" prefWidth="268.0" promptText="Date Of Registration" stylesheets="@../assets/CSS/CSS.css" />
-            <JFXTextField fx:id="txt_student_room_type" alignment="CENTER" layoutX="50.0" layoutY="484.0" prefHeight="25.0" prefWidth="268.0" promptText="Room Type">
+            <JFXTextField fx:id="txt_student_room_type" alignment="CENTER" disable="true" layoutX="50.0" layoutY="484.0" prefHeight="25.0" prefWidth="268.0" promptText="Room Type">
                <font>
                   <Font name="Times New Roman Bold" size="18.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="txt_student_romm_payed_price" alignment="CENTER" layoutX="391.0" layoutY="484.0" prefHeight="32.0" prefWidth="245.0" promptText="Paied Key Money">
+            <JFXTextField fx:id="txt_student_romm_payed_price" alignment="CENTER" disable="true" layoutX="420.0" layoutY="454.0" prefHeight="32.0" prefWidth="245.0" promptText="Paied Key Money">
                <font>
                   <Font name="Times New Roman Bold" size="18.0" />
                </font>
             </JFXTextField>
-            <JFXCheckBox fx:id="cb_later" layoutX="655.0" layoutY="494.0" text="Later">
+            <JFXComboBox fx:id="C_box_romm_id1" layoutX="441.0" layoutY="370.0" onAction="#C_box_romm_id_On_Action2" prefHeight="25.0" prefWidth="166.0" promptText="Room Type ID" />
+            <JFXRadioButton fx:id="R_btn_done" cache="true" layoutX="413.0" layoutY="501.0" prefHeight="30.0" selected="true" text="Done">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
-            </JFXCheckBox>
+               <toggleGroup>
+                  <ToggleGroup fx:id="Payments" />
+               </toggleGroup>
+            </JFXRadioButton>
+            <JFXRadioButton fx:id="R_btn_later" cache="true" layoutX="582.0" layoutY="501.0" prefHeight="30.0" text="Later" toggleGroup="$Payments">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </JFXRadioButton>
          </children>
       </Pane>
       <Pane fx:id="second_pane" layoutY="150.0" prefHeight="875.0" prefWidth="1930.0" style="-fx-background-color: FFFF;" visible="false">
@@ -196,7 +205,7 @@
                </font>
             </JFXTextField>
          </children></Pane>
-      <Pane fx:id="thier_Pane" layoutY="150.0" prefHeight="875.0" prefWidth="1930.0" style="-fx-background-color: FFFF;" visible="false">
+      <Pane fx:id="thier_Pane" layoutY="150.0" prefHeight="875.0" prefWidth="1930.0" style="-fx-background-color: FFFF;">
          <children>
             <Label fx:id="lbl_rasavation_ID" layoutX="53.0" layoutY="54.0" text="res_ID">
                <font>
@@ -231,11 +240,12 @@
             </JFXTextField>
             <TableView fx:id="tbl_Resavation" layoutX="661.0" layoutY="210.0" prefHeight="588.0" prefWidth="1200.0">
               <columns>
-                <TableColumn fx:id="col_Res_ID" prefWidth="240.0" text="Resavation ID" />
-                <TableColumn fx:id="col_Res_Student_Name" minWidth="0.0" prefWidth="240.0" text="Student Name" />
-                  <TableColumn fx:id="col_Res_Room_Type" minWidth="0.0" prefWidth="240.0" text="Room Type" />
-                  <TableColumn fx:id="col_Res_Remain_Payments" minWidth="0.0" prefWidth="240.0" text="Remain Payments" />
-                  <TableColumn fx:id="col_Res_Options" minWidth="0.0" prefWidth="240.0" text="Option" />
+                <TableColumn fx:id="col_Res_ID" prefWidth="181.0" text="Resavation ID" />
+                <TableColumn fx:id="col_Res_Student_Name" minWidth="0.0" prefWidth="220.0" text="Student Name" />
+                  <TableColumn fx:id="col_Res_Room_Type" minWidth="0.0" prefWidth="214.0" text="Room Type" />
+                  <TableColumn fx:id="col_Res_Remain_Payments" minWidth="0.0" prefWidth="232.0" text="Remain Payments" />
+                  <TableColumn fx:id="col_Res_Date" prefWidth="182.0" text="Resavation Date" />
+                  <TableColumn fx:id="col_Res_Options" minWidth="0.0" prefWidth="168.0" text="Option" />
               </columns>
             </TableView>
             <JFXTextField fx:id="txt_res_room_remain_payments" alignment="CENTER" disable="true" layoutX="381.0" layoutY="458.0" prefHeight="25.0" prefWidth="224.0" promptText="Remain Payments">
@@ -243,11 +253,13 @@
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <JFXButton layoutX="279.0" layoutY="714.0" style="-fx-background-color: #001d3d;" text="Done" textFill="#b0ffb6">
+            <JFXButton layoutX="279.0" layoutY="714.0" onAction="#Reservation_Save_On_Action" style="-fx-background-color: #001d3d;" text="Done" textFill="#b0ffb6">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXButton>
+            <JFXTextField fx:id="Res_ID" layoutX="184.0" layoutY="64.0" />
+            <RadioButton fx:id="Reservation_Payments_done" layoutX="269.0" layoutY="643.0" mnemonicParsing="false" text="Done" />
          </children>
       </Pane>
       <Pane fx:id="forth_Pane" layoutX="26.0" layoutY="196.0" prefHeight="817.0" prefWidth="1904.0" style="-fx-background-color: FFFF;" visible="false">

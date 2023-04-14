@@ -26,4 +26,8 @@ public class Roomdto {
         this.keymoney = keymoney;
         this.qyt = qyt;
     }
+
+    public Roomdto(String roomId) {
+        this.roomId = roomId;
+    }
 }

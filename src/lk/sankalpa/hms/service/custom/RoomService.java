@@ -12,10 +12,12 @@ public interface RoomService extends SuperService {
     Roomdto updateRoom(Roomdto roomdto);
     void deleteRoom(String id);
 
-    List<Roomdto>addRoomes(Session session);
+    List<Roomdto> allRooms(Session session);
 
     Roomdto searchRoom(String Id);
 
     List<String>roomIDs(Session session);
+
+
 
 }

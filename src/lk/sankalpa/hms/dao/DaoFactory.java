@@ -1,5 +1,6 @@
 package lk.sankalpa.hms.dao;
 
+import lk.sankalpa.hms.dao.custom.impl.ReservationDaoImpl;
 import lk.sankalpa.hms.dao.custom.impl.RoomDaoImpl;
 import lk.sankalpa.hms.dao.custom.impl.StudentDaoImpl;
 import org.hibernate.Session;
@@ -22,6 +23,8 @@ public class DaoFactory {
             case STUDENT:return (T) new StudentDaoImpl(session);
 
             case ROOM:return (T)new RoomDaoImpl(session);
+
+            case RESERVATION:return (T)new  ReservationDaoImpl(session);
 
             default:return null;
         }

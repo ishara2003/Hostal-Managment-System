@@ -84,7 +84,7 @@ return null;
     }
 
     @Override
-    public List<Roomdto> addRoomes(Session session) {
+    public List<Roomdto> allRooms(Session session) {
 
         return roomDao.allData(session).stream().map(ss ->
                 converter.fromRoom(ss)).collect(Collectors.toList());
@@ -109,4 +109,7 @@ return null;
         return roomDao.roomIds(session);
 
     }
+
+
+
 }

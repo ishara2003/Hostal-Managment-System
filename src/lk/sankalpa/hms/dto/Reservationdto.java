@@ -23,7 +23,8 @@ public class Reservationdto {
     private String res_id;
     private LocalDate date;
     private String status;
-    private Student student;
-    private Room room;
+    private Studentdto student;
+    private Roomdto room;
+
 
 }
