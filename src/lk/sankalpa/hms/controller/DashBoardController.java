@@ -397,7 +397,7 @@ public class DashBoardController {
             button.setOnAction(event -> {
                 tbl_Resavation.getItems().removeAll(tbl_Resavation.getSelectionModel().getSelectedItem());
 
-
+                    reservationService.deleteReservation(reservationTM.getRes_id());
 
         });
             objects.add(reservationTM);

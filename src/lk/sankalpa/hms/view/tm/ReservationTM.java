@@ -3,9 +3,14 @@ package lk.sankalpa.hms.view.tm;
 import javafx.scene.control.Button;
 import lk.sankalpa.hms.dto.Roomdto;
 import lk.sankalpa.hms.dto.Studentdto;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class ReservationTM {
 
     private String res_id;
@@ -15,12 +20,12 @@ public class ReservationTM {
     private String room;
     private Button button;
 
-    public ReservationTM(String res_id, LocalDate date, String status, String student, String room, Button button) {
-        this.res_id = res_id;
-        this.date = date;
-        this.status = status;
-        this.student = student;
-        this.room = room;
-        this.button = button;
-    }
+//    public ReservationTM(String res_id, LocalDate date, String status, String student, String room, Button button) {
+//        this.res_id = res_id;
+//        this.date = date;
+//        this.status = status;
+//        this.student = student;
+//        this.room = room;
+//        this.button = button;
+//    }
 }
