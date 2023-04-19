@@ -110,6 +110,17 @@ return null;
 
     }
 
+    @Override
+    public Roomdto byId(String Id) {
+
+        Session session1 = FactoryConfigeration.getInstance().getSession();
+
+        Room room = roomDao.byId(Id, session1);
+        Roomdto roomdto = converter.fromRoom(room);
+
+        return roomdto;
+
+    }
 
 
 }

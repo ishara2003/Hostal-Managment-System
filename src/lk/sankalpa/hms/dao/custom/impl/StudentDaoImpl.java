@@ -91,4 +91,14 @@ return null;
 return list;
 
     }
+
+    @Override
+    public Student biStudentId(String Id, Session session) {
+        System.out.println(Id);
+
+        Student student = session.get(Student.class, Id);
+
+        return student;
+
+    }
 }

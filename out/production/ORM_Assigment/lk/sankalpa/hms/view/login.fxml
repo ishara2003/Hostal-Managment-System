@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -21,6 +22,11 @@
                   <Image url="@../assets/images/main_Image.jpg" />
                </image>
             </ImageView>
+            <Label alignment="CENTER" layoutX="938.0" layoutY="833.0" onMouseClicked="#lbl_create_Account_On_action" prefHeight="17.0" prefWidth="201.0" text="Create Account" textFill="#1500ff" underline="true">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
             <AnchorPane layoutX="825.0" layoutY="538.0" prefHeight="269.0" prefWidth="427.0" style="-fx-background-color: FDFDFD;">
                <children>
                   <ImageView fitHeight="241.0" fitWidth="245.0" layoutX="96.0" layoutY="21.0">
@@ -95,6 +101,46 @@
                   <Font size="15.0" />
                </font>
             </JFXTextField>
+            <Pane fx:id="create_account_pane" layoutX="776.0" layoutY="119.0" prefHeight="760.0" prefWidth="514.0" style="-fx-background-color: red;" visible="false">
+               <children>
+                  <ImageView fitHeight="760.0" fitWidth="514.0">
+                     <image>
+                        <Image url="@../assets/images/pexels-francesco-ungaro-281260.jpg" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="135.0" layoutY="24.0" prefHeight="44.0" prefWidth="245.0" text="Create Account" textFill="#4e4386">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                  </Label>
+                  <Line endX="211.0" layoutX="191.0" layoutY="75.0" startX="-100.0" />
+                  <JFXTextField fx:id="txt_CA_UserName" alignment="CENTER" layoutX="88.0" layoutY="180.0" prefHeight="45.0" prefWidth="340.0" promptText="User name">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXTextField fx:id="txt_CA_nic" alignment="CENTER" layoutX="88.0" layoutY="314.0" prefHeight="45.0" prefWidth="340.0" promptText="National Identy Card Number">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXTextField fx:id="txt_CA_password" alignment="CENTER" layoutX="88.0" layoutY="444.0" prefHeight="45.0" prefWidth="340.0" promptText="Password">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXTextField fx:id="txt_CA_conform_password" alignment="CENTER" layoutX="88.0" layoutY="566.0" onAction="#save_Account_On_action" prefHeight="45.0" prefWidth="340.0" promptText="Conform Password">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </JFXTextField>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="479.0" layoutY="3.0" onMouseClicked="#close_create_account_pane">
+                     <image>
+                        <Image url="@../assets/icons/cancel.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
          </children></AnchorPane>
       <JFXButton fx:id="close_btn" layoutX="1879.0" onAction="#close_On_Acion" prefHeight="34.0" prefWidth="27.0" stylesheets="@../assets/CSS/CSS.css" text=" ">
          <graphic>

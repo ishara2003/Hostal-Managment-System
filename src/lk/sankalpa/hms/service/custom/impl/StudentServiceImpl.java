@@ -11,6 +11,7 @@ import lk.sankalpa.hms.util.FactoryConfigeration;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,9 +57,11 @@ public class StudentServiceImpl implements StudentService {
         try{
         studentDao.update(converter.toStudent(studentdto),session1);
         transaction.commit();
+            JOptionPane.showMessageDialog(null,"Student Added","Information",JOptionPane.INFORMATION_MESSAGE);
         session1.close();
 
         }catch (Exception e){
+            JOptionPane.showMessageDialog(null,"Student Not Added","Information",JOptionPane.INFORMATION_MESSAGE);
             transaction.rollback();
         }
 
@@ -90,6 +93,18 @@ public class StudentServiceImpl implements StudentService {
 
         return studentDao.allData(session).stream().map(ss ->
                 converter.fromStudent(ss)).collect(Collectors.toList());
+
+    }
+
+    @Override
+    public Studentdto byStudentId(String Id) {
+        Session session1 = FactoryConfigeration.getInstance().getSession();
+        Student student = studentDao.biStudentId(Id,session1);
+
+        Studentdto studentdto = converter.fromStudent(student);
+
+        return studentdto;
+
 
     }
 }

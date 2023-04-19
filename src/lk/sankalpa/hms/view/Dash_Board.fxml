@@ -38,11 +38,6 @@
                   <Font name="Times New Roman Bold" size="25.0" />
                </font>
             </JFXButton>
-            <JFXButton maxHeight="56.0" onAction="#btn_Fore" style="-fx-background-color: #0077b6;" stylesheets="@../assets/CSS/CSS.css" text="Add Student" textFill="#90e0ef">
-               <font>
-                  <Font name="Times New Roman Bold" size="25.0" />
-               </font>
-            </JFXButton>
          </buttons>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -137,6 +132,11 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </JFXRadioButton>
+            <JFXButton fx:id="btn_next" layoutX="556.0" layoutY="816.0" onAction="#btn_next_On_Action" style="-fx-background-color: #001d3d;" text="Next" textFill="#b0ffb6" visible="false">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXButton>
          </children>
       </Pane>
       <Pane fx:id="second_pane" layoutY="150.0" prefHeight="875.0" prefWidth="1930.0" style="-fx-background-color: FFFF;" visible="false">
@@ -205,7 +205,7 @@
                </font>
             </JFXTextField>
          </children></Pane>
-      <Pane fx:id="thier_Pane" layoutY="150.0" prefHeight="875.0" prefWidth="1930.0" style="-fx-background-color: FFFF;">
+      <Pane fx:id="thier_Pane" layoutY="150.0" prefHeight="875.0" prefWidth="1930.0" style="-fx-background-color: FFFF;" visible="false">
          <children>
             <Label fx:id="lbl_rasavation_ID" layoutX="53.0" layoutY="54.0" text="res_ID">
                <font>

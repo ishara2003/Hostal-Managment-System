@@ -13,10 +13,18 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import lk.sankalpa.hms.dto.Userdto;
+import lk.sankalpa.hms.service.ServiceFactory;
+import lk.sankalpa.hms.service.ServiceTypes;
+import lk.sankalpa.hms.service.custom.UserService;
+import lk.sankalpa.hms.util.FactoryConfigeration;
 import lk.sankalpa.hms.util.Navigation;
 import lk.sankalpa.hms.util.Routes;
+import org.hibernate.Session;
 
+import javax.swing.*;
 import java.io.IOException;
+import java.util.List;
 
 public class Login_Controller {
 
@@ -37,8 +45,16 @@ public class Login_Controller {
     public FontAwesomeIcon txt_hide_password_icon;
     public FontAwesomeIcon txt_view_password_icon;
     public JFXTextField txt_view_password;
+    public Pane create_account_pane;
+    public JFXTextField txt_CA_UserName;
+    public JFXTextField txt_CA_nic;
+    public JFXTextField txt_CA_password;
+    public JFXTextField txt_CA_conform_password;
 
+    public UserService userService;
     public void initialize(){
+
+        userService= ServiceFactory.getInstance().getService(ServiceTypes.USER);
 
        change_pw_pane.setVisible(false);
 
@@ -83,22 +99,41 @@ public class Login_Controller {
     }
     public void password_On_Action(ActionEvent actionEvent) throws IOException {
 
-        if(txt_user_name.getText().equals(un)||txt_password.getText().equals(pw)){
+        Session session = FactoryConfigeration.getInstance().getSession();
 
+        List<Userdto> userdtos = userService.allUsers(session);
+
+        for (Userdto user :userdtos) {
+            if(user.getPassword().equals(txt_password.getText()) && user.getUsername().equals(txt_user_name.getText())){
             Navigation.navigate(Routes.PAGE_ONE,content_Page );
 
+            }
         }
 
     }
     public void txt_NIC_On_Action(ActionEvent actionEvent) {
 
+        Userdto userdto = userService.searchUser(txt_nic.getText());
+
+        if(txt_nic.getText().equals(userdto.getNic())){
+            txt_ch_user_name.setText(userdto.getUsername());
+        }
 
 
     }
 
     public void txt_Conferm_Password_On_Action(ActionEvent actionEvent) {
 
+        if(txt_new_password.getText().equals(txt_conferm_password.getText())) {
 
+            userService.updateUser(new Userdto(
+                    txt_nic.getText(),
+                    txt_user_name.getText(),
+                    txt_conferm_password.getText()
+            ));
+        }else {
+            JOptionPane.showMessageDialog(null,"Password is not Confermed");
+        }
 
     }
 
@@ -119,6 +154,36 @@ public class Login_Controller {
         txt_view_password_icon.setVisible(false);
         txt_view_password.setVisible(true);
         txt_hide_password_icon.setVisible(true);
+
+
+    }
+
+    public void save_Account_On_action(ActionEvent actionEvent) {
+
+        if(txt_CA_password.getText().equals(txt_CA_conform_password.getText())){
+
+
+            userService.saveUser(new Userdto(
+
+                    txt_CA_UserName.getText(),
+                    txt_CA_nic.getText(),
+                    txt_CA_conform_password.getText()
+
+            ));
+        }else {
+            JOptionPane.showMessageDialog(null,"Passwword in not Confermed");
+        }
+    }
+
+    public void close_create_account_pane(MouseEvent mouseEvent) {
+
+        new ZoomOut(create_account_pane).play();
+    }
+
+    public void lbl_create_Account_On_action(MouseEvent mouseEvent) {
+
+        new ZoomIn(create_account_pane).play();
+        create_account_pane.setVisible(true);
 
 
     }

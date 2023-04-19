@@ -4,6 +4,7 @@ import lk.sankalpa.hms.dao.DaoFactory;
 import lk.sankalpa.hms.dao.DaoTypes;
 import lk.sankalpa.hms.dao.custom.ReservationDao;
 import lk.sankalpa.hms.dto.Reservationdto;
+import lk.sankalpa.hms.entity.Reservation;
 import lk.sankalpa.hms.service.Converter;
 import lk.sankalpa.hms.service.custom.ReservationService;
 import lk.sankalpa.hms.util.FactoryConfigeration;
@@ -66,6 +67,26 @@ return reservationdto;
             transaction.rollback();
         }
 
+
+    }
+
+    @Override
+    public Reservationdto byId(String Id) {
+
+        Reservation reservation = reservationDao.byId(Id);
+
+        Reservationdto reservationdto = converter.fromReservation(reservation);
+
+        return reservationdto;
+
+    }
+
+    @Override
+    public List<Reservationdto> resById(String Id, Session session) {
+
+
+        return reservationDao.resById(Id,session).stream().map(reservation ->
+                converter.fromReservation(reservation)).collect(Collectors.toList());
 
     }
 }

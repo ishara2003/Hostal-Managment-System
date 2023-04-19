@@ -14,4 +14,6 @@ public interface StudentService extends SuperService {
     void deleteStudent( String Id);
     List<Studentdto>allStudents(Session session);
 
+    Studentdto byStudentId(String Id);
+
 }

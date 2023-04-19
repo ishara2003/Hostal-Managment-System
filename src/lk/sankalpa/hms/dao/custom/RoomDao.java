@@ -10,5 +10,7 @@ public interface RoomDao extends CrudDao<Room , String> {
 
     List<String> roomIds(Session session);
 
+    Room byId(String Id,Session session);
+
 
 }

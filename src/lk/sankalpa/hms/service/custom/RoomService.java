@@ -18,6 +18,8 @@ public interface RoomService extends SuperService {
 
     List<String>roomIDs(Session session);
 
+    Roomdto byId(String Id);
+
 
 
 }

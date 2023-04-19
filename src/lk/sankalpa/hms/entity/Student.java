@@ -38,4 +38,9 @@ public class Student implements SuperEntity{
     public Student(String id) {
         this.id = id;
     }
+
+    public Student(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

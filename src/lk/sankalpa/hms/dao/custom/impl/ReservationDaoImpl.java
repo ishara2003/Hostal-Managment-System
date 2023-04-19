@@ -1,11 +1,13 @@
 package lk.sankalpa.hms.dao.custom.impl;
 
 import lk.sankalpa.hms.dao.custom.ReservationDao;
+import lk.sankalpa.hms.dao.custom.RoomDao;
 import lk.sankalpa.hms.entity.Reservation;
 import lk.sankalpa.hms.entity.Room;
 import lk.sankalpa.hms.entity.SuperEntity;
 import lk.sankalpa.hms.util.FactoryConfigeration;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.List;
@@ -16,8 +18,28 @@ public class ReservationDaoImpl implements ReservationDao {
         this.session=session;
     }
 
+    private RoomDao roomDao;
+
     @Override
     public Reservation save(Reservation entity, Session session) {
+
+
+
+            session.save(entity);
+
+                Session session1 = FactoryConfigeration.getInstance().getSession();
+                Transaction transaction = session1.beginTransaction();
+            try{
+
+
+            Room search = roomDao.search(entity.getRoom().getRoomId(), session);
+
+                search.setQyt(search.getQyt()-1);
+                transaction.commit();
+                session1.close();
+            }catch (Exception e){
+                transaction.rollback();
+            }
 
 
 
@@ -26,6 +48,7 @@ public class ReservationDaoImpl implements ReservationDao {
         return entity;
 
     }
+
 
     @Override
     public Reservation update(Reservation entity, Session session) {
@@ -70,6 +93,35 @@ public class ReservationDaoImpl implements ReservationDao {
             rooms=query.list();
             return rooms.get(0).getRes_id();
 
+
+    }
+
+    @Override
+    public Reservation byId(String Id) {
+
+        Reservation reservation = session.get(Reservation.class, Id);
+
+        return reservation;
+
+    }
+
+    @Override
+    public List<Reservation> resById(String Id, Session session) {
+
+        List<Reservation> name = session.createQuery("FROM Reservation r WHERE r.student=:name").setParameter("name", Id).list();
+
+
+        for(Reservation reservation : name){
+
+            reservation.getRes_id();
+            reservation.getDate();
+            reservation.getStatus();
+            reservation.getStudent();
+            reservation.getRoom();
+
+        }
+
+        return name;
 
     }
 

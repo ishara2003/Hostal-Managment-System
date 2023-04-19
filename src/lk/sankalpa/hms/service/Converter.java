@@ -3,9 +3,11 @@ package lk.sankalpa.hms.service;
 import lk.sankalpa.hms.dto.Reservationdto;
 import lk.sankalpa.hms.dto.Roomdto;
 import lk.sankalpa.hms.dto.Studentdto;
+import lk.sankalpa.hms.dto.Userdto;
 import lk.sankalpa.hms.entity.Reservation;
 import lk.sankalpa.hms.entity.Room;
 import lk.sankalpa.hms.entity.Student;
+import lk.sankalpa.hms.entity.User;
 
 public class Converter {
 
@@ -38,8 +40,8 @@ public class Converter {
         return new Reservation(reservationdto.getRes_id(),
                 reservationdto.getDate(),
                 reservationdto.getStatus(),
-                new Student(reservationdto.getStudent().getId()),
-               new Room(reservationdto.getRoom().getRoomId()));
+               toStudent(reservationdto.getStudent()),
+              toRoom(reservationdto.getRoom()));
     }
 
     public Reservationdto fromReservation (Reservation reservation){
@@ -51,6 +53,19 @@ public class Converter {
                 new Roomdto(reservation.getRoom().getRoomId()));
 
     }
+
+    public Userdto fromUser(User user){
+
+        return new Userdto(user.getUsername(),user.getNic(), user.getPassword());
+
+    }
+
+    public User toUser(Userdto userdto){
+
+        return new User(userdto.getNic(), userdto.getUsername(),userdto.getPassword());
+
+    }
+
 
 
 }

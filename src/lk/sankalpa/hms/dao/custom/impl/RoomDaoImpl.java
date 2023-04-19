@@ -94,4 +94,15 @@ public class RoomDaoImpl implements RoomDao {
 
     }
 
+    @Override
+    public Room byId(String Id,Session session) {
+
+
+        Room room = session.get(Room.class, Id);
+
+        return room;
+
+
+    }
+
 }

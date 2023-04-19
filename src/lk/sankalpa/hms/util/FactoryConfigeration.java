@@ -3,6 +3,7 @@ package lk.sankalpa.hms.util;
 import lk.sankalpa.hms.entity.Reservation;
 import lk.sankalpa.hms.entity.Room;
 import lk.sankalpa.hms.entity.Student;
+import lk.sankalpa.hms.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -11,7 +12,11 @@ public class FactoryConfigeration {
     public static FactoryConfigeration factoryConfigeration;
     private SessionFactory session;
     private FactoryConfigeration(){
-        Configuration configuration = new Configuration().addAnnotatedClass(Student.class).addAnnotatedClass(Room.class).addAnnotatedClass(Reservation.class);
+        Configuration configuration = new Configuration().
+                addAnnotatedClass(Student.class).
+                addAnnotatedClass(Room.class).
+                addAnnotatedClass(Reservation.class).
+                addAnnotatedClass(User.class);
          session=configuration.buildSessionFactory();
 
 

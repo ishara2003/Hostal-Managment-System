@@ -17,9 +17,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
 import lk.sankalpa.hms.dto.Reservationdto;
 import lk.sankalpa.hms.dto.Roomdto;
 import lk.sankalpa.hms.dto.Studentdto;
+import lk.sankalpa.hms.entity.Reservation;
 import lk.sankalpa.hms.service.ServiceFactory;
 import lk.sankalpa.hms.service.ServiceTypes;
 import lk.sankalpa.hms.service.custom.ReservationService;
@@ -31,15 +33,19 @@ import lk.sankalpa.hms.view.tm.RoomTM;
 import lk.sankalpa.hms.view.tm.StudentTM;
 import org.hibernate.Session;
 
+import java.util.List;
+import java.util.regex.Pattern;
+
 public class DashBoardController {
 
-    public TableColumn col_Res_Date;
-    public JFXComboBox C_box_romm_id1;
+    public TableColumn<Object, Object> col_Res_Date;
+    public JFXComboBox<String> C_box_romm_id1;
     public JFXRadioButton R_btn_done;
     public ToggleGroup Payments;
     public JFXRadioButton R_btn_later;
     public JFXTextField Res_ID;
     public RadioButton Reservation_Payments_done;
+    public JFXButton btn_next;
     @FXML
     private AnchorPane dash_board_pane;
 
@@ -220,6 +226,12 @@ public class DashBoardController {
     public StudentService studentService;
     public RoomService roomService;
     public ReservationService reservationService;
+    //==========================================================================================
+    //==========================================================================================
+    private Pattern idPattern;
+    private Pattern namePattern;
+    private Pattern numberPattern;
+    private Pattern addressPattern;
     public void initialize(){
 
         studentService = ServiceFactory.getInstance().getService(ServiceTypes.STUDENT);
@@ -255,6 +267,16 @@ public class DashBoardController {
         col_Res_Remain_Payments.setCellValueFactory(new PropertyValueFactory<>("status"));
         col_Res_Date.setCellValueFactory(new PropertyValueFactory<>("date"));
         col_Res_Options.setCellValueFactory(new PropertyValueFactory<>("button"));
+
+
+        idPattern=Pattern.compile("^[A-Z0-9]{2,}$");
+
+        namePattern=Pattern.compile("^[A-Za-z]{4,}$");
+
+        numberPattern=Pattern.compile("^\\d{3}-\\d{3}-\\d{4}$");
+
+        addressPattern= Pattern.compile("^[A-Za-z]{2,}$");
+
 
     }
 
@@ -406,22 +428,7 @@ public class DashBoardController {
     }
     }
 
-    @FXML
-    void btn_Fore(ActionEvent event) {
 
-//        if(thier_Pane.isVisible()){
-//            new SlideOutRight(thier_Pane).play();
-//        }
-//        if (second_pane.isVisible()) {
-//            new SlideOutRight(second_pane).play();
-//        }
-//        if (fisrt_Pane.isVisible()) {
-//            new SlideOutRight(fisrt_Pane).play();
-//        }
-//        new SlideInLeft(forth_Pane).play();
-//        forth_Pane.setVisible(true);
-
-    }
 
     public void search_On_Action(ActionEvent actionEvent) {
 
@@ -468,28 +475,29 @@ public class DashBoardController {
     }
 
     public void btn_Student_register_On_Actoin(ActionEvent actionEvent) {
-//
-//        Session session = FactoryConfigeration.getInstance().getSession();
-//
-//        Studentdto studentdto1 = new Studentdto();
-//        studentdto1.getId();
-//
-//        Roomdto roomdto = roomService.searchRoom(txt_room_type.getText());
-//
-//
-//        if(cb_later.isSelected()) {
-//
-//            reservationService.addReservation(
-//                    new Reservationdto(
-//                            lbl_rasavation_ID.getText(),
-//                            txt_date_of_registration.getValue(),
-//                            cb_later.getText(),
-//                            studentdto1,
-//                            roomdto
-//
-//                    ));
-//        }
+
         if(btn_register.getText().equals("Register")) {
+
+            boolean matches = idPattern.matcher(txt_student_id.getText()).matches();
+            boolean matches1 = namePattern.matcher(txt_student_name.getText()).matches();
+            boolean matches2 = numberPattern.matcher(txt_student_number.getText()).matches();
+            boolean matches3 = addressPattern.matcher(txt_student_address.getText()).matches();
+
+            if(matches){
+
+                txt_student_id.setFocusColor(Paint.valueOf("Blue"));
+
+                if(matches1){
+
+                    txt_student_name.setFocusColor(Paint.valueOf("Blue"));
+
+                    if(matches2){
+
+                        txt_student_number.setFocusColor(Paint.valueOf("Blue"));
+
+                        if(matches3){
+
+                            txt_student_address.setFocusColor(Paint.valueOf("Blue"));
 
             if (R_btn_Male.isSelected()) {
 
@@ -532,6 +540,25 @@ public class DashBoardController {
                         R_btn_others.getText()));
 
             }
+                        }else {
+                            txt_student_address.setFocusColor(Paint.valueOf("Red"));
+                            txt_student_address.requestFocus();
+                        }
+
+                    }else {
+                        txt_student_number.setFocusColor(Paint.valueOf("Red"));
+                        txt_student_number.requestFocus();
+                    }
+
+                }else {
+                    txt_student_name.setFocusColor(Paint.valueOf("Red"));
+                    txt_student_name.requestFocus();
+                }
+
+            }else {
+                txt_student_id.setFocusColor(Paint.valueOf("Red"));
+                txt_student_id.requestFocus();
+            }
      }
         if (btn_register.getText().equals("Update")) {
 
@@ -547,6 +574,7 @@ public class DashBoardController {
         }
 
         resavation_date.setValue(txt_date_of_registration.getValue());
+        btn_next.setVisible(true);
 
 loadAllStudent();
     }
@@ -606,12 +634,48 @@ loadAllStudent();
 
     }
 
-
-
     @FXML
     void icon_Search_Student_By_ID(MouseEvent event) {
 
+        btn_register.setText("Update");
 
+
+        Studentdto studentdto = studentService.searchStudent( txt_search_studenr.getText());
+
+        if(studentdto.getGender().equals(R_btn_Male.getText())){
+
+            txt_student_id.setText(studentdto.getId());
+            txt_student_name.setText(studentdto.getName());
+            txt_student_address.setText(studentdto.getAddress());
+            txt_student_number.setText(studentdto.getNumber());
+            txt_student_dob.setValue(studentdto.getBod());
+            R_btn_Male.setSelected(true);
+
+        }
+
+
+        if(studentdto.getGender().equals(R_btn_female.getText())){
+
+            txt_student_id.setText(studentdto.getId());
+            txt_student_name.setText(studentdto.getName());
+            txt_student_address.setText(studentdto.getAddress());
+            txt_student_number.setText(studentdto.getNumber());
+            txt_student_dob.setValue(studentdto.getBod());
+            R_btn_female.setSelected(true);
+
+        }
+
+
+        if(studentdto.getGender().equals(R_btn_others.getText())){
+
+            txt_student_id.setText(studentdto.getId());
+            txt_student_name.setText(studentdto.getName());
+            txt_student_address.setText(studentdto.getAddress());
+            txt_student_number.setText(studentdto.getNumber());
+            txt_student_dob.setValue(studentdto.getBod());
+            R_btn_others.setSelected(true);
+
+        }
 
 
 
@@ -620,11 +684,23 @@ loadAllStudent();
     @FXML
     void txt_Res_Student_Id_On_Action(ActionEvent event) {
 
+        Session session = FactoryConfigeration.getInstance().getSession();
+
+        List<Reservationdto> reservationdtos = reservationService.resById(txt_res_student_id.getText(), session);
+
+        for(Reservationdto reservation:reservationdtos){
+
+            txt_res_room_remain_payments.setText(reservation.getStatus());
+
+        }
+
+
+
     }
 
     public void C_box_romm_id_On_Action2(ActionEvent actionEvent) {
 
-        Roomdto roomdto = roomService.searchRoom((String) C_box_romm_id1.getSelectionModel().getSelectedItem());
+        Roomdto roomdto = roomService.searchRoom(C_box_romm_id1.getSelectionModel().getSelectedItem());
 
         txt_student_room_type.setText(roomdto.getType());
 
@@ -650,6 +726,7 @@ loadAllStudent();
         ObservableList<String> observableList = FXCollections.observableArrayList(roomService.roomIDs(session));
 
         C_box_romm_id.setItems(observableList);
+        C_box_romm_id1.setItems(observableList);
 
     }
     public void LoadIDSOnRegistration(){
@@ -657,31 +734,62 @@ loadAllStudent();
 
         ObservableList<String> observableList = FXCollections.observableArrayList(roomService.roomIDs(session));
 
-
         C_box_romm_id1.setItems(observableList);
     }
 
     public void Reservation_Save_On_Action(ActionEvent actionEvent) {
 
-        Studentdto student = new Studentdto();
-        student.setId(txt_student_id.getText());
+        if (txt_student_id.getText().equals("")) {
+            new SlideInLeft(fisrt_Pane).play();
+            fisrt_Pane.setVisible(true);
+            System.out.println("sdfsdfsdf");
+        } else {
 
-        Roomdto room = new Roomdto();
-        room.setRoomId((String) C_box_romm_id1.getValue());
-        System.out.println(room);
+            Studentdto student = new Studentdto();
+            student.setId(txt_student_id.getText());
 
-        if(R_btn_done.isSelected()) {
+            Studentdto studentdto = studentService.byStudentId(txt_student_id.getText());
 
-            reservationService.addReservation(new Reservationdto(
+            Roomdto roomdto = roomService.byId(C_box_romm_id1.getValue());
+
+            Roomdto room = new Roomdto();
+            room.setRoomId(C_box_romm_id1.getValue());
+
+            if (R_btn_done.isSelected()) {
+
+                reservationService.addReservation(new Reservationdto(
 
 
-                    Res_ID.getText(),
-                    resavation_date.getValue(),
-                    R_btn_done.getText(),
-                    student,
-                    room));
+                        Res_ID.getText(),
+                        resavation_date.getValue(),
+                        R_btn_done.getText(),
+                        studentdto,
+                        roomdto));
+
+            }
+
+
+            if (R_btn_later.isSelected()) {
+
+                reservationService.addReservation(new Reservationdto(
+
+
+                        Res_ID.getText(),
+                        resavation_date.getValue(),
+                        R_btn_later.getText(),
+                        studentdto,
+                        roomdto));
+
+            }
+
+            loadAllReservations();
 
         }
 
     }
-}
+        public void btn_next_On_Action (ActionEvent actionEvent){
+
+            btn_room_reserve_On_Action(actionEvent);
+
+        }
+    }

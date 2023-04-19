@@ -14,6 +14,10 @@ List<Reservationdto> allReservatines(Session session);
 
 void deleteReservation(String Id);
 
+Reservationdto byId(String Id);
+
+List<Reservationdto> resById(String Id, Session session);
+
 
 
 }
