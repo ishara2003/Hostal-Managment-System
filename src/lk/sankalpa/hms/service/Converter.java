@@ -49,8 +49,8 @@ public class Converter {
         return new Reservationdto(reservation.getRes_id(),
                 reservation.getDate(),
                 reservation.getStatus(),
-                new Studentdto(reservation.getStudent().getId()),
-                new Roomdto(reservation.getRoom().getRoomId()));
+                new Studentdto(reservation.getStudent().getId(),reservation.getStudent().getName()),
+                new Roomdto(reservation.getRoom().getRoomId(),reservation.getRoom().getType()));
 
     }
 

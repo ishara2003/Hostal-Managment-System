@@ -29,7 +29,8 @@ public class ReservationDaoImpl implements ReservationDao {
 
                 Session session1 = FactoryConfigeration.getInstance().getSession();
                 Transaction transaction = session1.beginTransaction();
-            try{
+
+                try{
 
 
             Room search = roomDao.search(entity.getRoom().getRoomId(), session);
@@ -108,7 +109,7 @@ public class ReservationDaoImpl implements ReservationDao {
     @Override
     public List<Reservation> resById(String Id, Session session) {
 
-        List<Reservation> name = session.createQuery("FROM Reservation r WHERE r.student=:name").setParameter("name", Id).list();
+        List<Reservation> name = session.createQuery("FROM Reservation r WHERE r.student='"+Id+"'").list();
 
 
         for(Reservation reservation : name){

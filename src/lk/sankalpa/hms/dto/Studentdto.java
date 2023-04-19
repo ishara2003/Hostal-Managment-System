@@ -46,4 +46,9 @@ public class Studentdto implements SuperEntity {
         this.bod = bod;
         this.gender = gender;
     }
+
+    public Studentdto(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

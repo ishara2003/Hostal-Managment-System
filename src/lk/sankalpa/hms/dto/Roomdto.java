@@ -30,4 +30,9 @@ public class Roomdto {
     public Roomdto(String roomId) {
         this.roomId = roomId;
     }
+
+    public Roomdto(String roomId, String type) {
+        this.roomId = roomId;
+        this.type = type;
+    }
 }

@@ -233,7 +233,7 @@
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <JFXTextField alignment="CENTER" disable="true" layoutX="381.0" layoutY="358.0" prefHeight="25.0" prefWidth="224.0" promptText="Student Name">
+            <JFXTextField fx:id="txt_res_student_name" alignment="CENTER" disable="true" layoutX="381.0" layoutY="358.0" prefHeight="25.0" prefWidth="224.0" promptText="Student Name">
                <font>
                   <Font size="18.0" />
                </font>

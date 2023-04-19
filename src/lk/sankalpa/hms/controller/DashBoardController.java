@@ -33,6 +33,7 @@ import lk.sankalpa.hms.view.tm.RoomTM;
 import lk.sankalpa.hms.view.tm.StudentTM;
 import org.hibernate.Session;
 
+import javax.swing.*;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -46,6 +47,7 @@ public class DashBoardController {
     public JFXTextField Res_ID;
     public RadioButton Reservation_Payments_done;
     public JFXButton btn_next;
+    public JFXTextField txt_res_student_name;
     @FXML
     private AnchorPane dash_board_pane;
 
@@ -399,10 +401,11 @@ public class DashBoardController {
 
     }
 
+        ObservableList<ReservationTM> objects = FXCollections.observableArrayList();
     public void loadAllReservations(){
         Session session = FactoryConfigeration.getInstance().getSession();
 
-        ObservableList<ReservationTM> objects = FXCollections.observableArrayList();
+        objects.clear();
 
         for (Reservationdto reservationdto :reservationService.allReservatines(session)){
 
@@ -691,7 +694,12 @@ loadAllStudent();
         for(Reservationdto reservation:reservationdtos){
 
             txt_res_room_remain_payments.setText(reservation.getStatus());
+            txt_res_room_id.setText(reservation.getRoom().getRoomId());
+            txt_res_student_name.setText(reservation.getStudent().getName());
+            txt_res_room_Type.setText(reservation.getRoom().getType());
+            resavation_date.setValue(reservation.getDate());
 
+            System.out.println(reservation.getDate());
         }
 
 
@@ -737,56 +745,71 @@ loadAllStudent();
         C_box_romm_id1.setItems(observableList);
     }
 
+    public boolean iLoveYou(){
+
+        for(ReservationTM tm:objects){
+            if(txt_student_id.getText().equals(tm.getStudent())){
+
+                JOptionPane.showMessageDialog(null, "Student Alrady have a Room", "Missing Data", JOptionPane.WARNING_MESSAGE);
+
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void Reservation_Save_On_Action(ActionEvent actionEvent) {
 
-        if (txt_student_id.getText().equals("")) {
-            new SlideInLeft(fisrt_Pane).play();
-            fisrt_Pane.setVisible(true);
-            System.out.println("sdfsdfsdf");
-        } else {
-
-            Studentdto student = new Studentdto();
-            student.setId(txt_student_id.getText());
-
-            Studentdto studentdto = studentService.byStudentId(txt_student_id.getText());
-
-            Roomdto roomdto = roomService.byId(C_box_romm_id1.getValue());
-
-            Roomdto room = new Roomdto();
-            room.setRoomId(C_box_romm_id1.getValue());
-
-            if (R_btn_done.isSelected()) {
-
-                reservationService.addReservation(new Reservationdto(
+    if(iLoveYou()){
 
 
-                        Res_ID.getText(),
-                        resavation_date.getValue(),
-                        R_btn_done.getText(),
-                        studentdto,
-                        roomdto));
+            if (txt_student_id.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Student Id and Room Type CAN NOT BE NULL", "Missing Data", JOptionPane.WARNING_MESSAGE);
 
-            }
+            } else {
+
+                Studentdto student = new Studentdto();
+                student.setId(txt_student_id.getText());
+
+                Studentdto studentdto = studentService.byStudentId(txt_student_id.getText());
+
+                Roomdto roomdto = roomService.byId(C_box_romm_id1.getValue());
+
+                Roomdto room = new Roomdto();
+                room.setRoomId(C_box_romm_id1.getValue());
+
+                if (R_btn_done.isSelected()) {
+
+                    reservationService.addReservation(new Reservationdto(
 
 
-            if (R_btn_later.isSelected()) {
+                            Res_ID.getText(),
+                            resavation_date.getValue(),
+                            R_btn_done.getText(),
+                            studentdto,
+                            roomdto));
 
-                reservationService.addReservation(new Reservationdto(
+                }
 
 
-                        Res_ID.getText(),
-                        resavation_date.getValue(),
-                        R_btn_later.getText(),
-                        studentdto,
-                        roomdto));
+                if (R_btn_later.isSelected()) {
 
-            }
+                    reservationService.addReservation(new Reservationdto(
 
-            loadAllReservations();
 
-        }
+                            Res_ID.getText(),
+                            resavation_date.getValue(),
+                            R_btn_later.getText(),
+                            studentdto,
+                            roomdto));
 
+                }
+
+                loadAllReservations();
+
+      }
     }
+   }
         public void btn_next_On_Action (ActionEvent actionEvent){
 
             btn_room_reserve_On_Action(actionEvent);
