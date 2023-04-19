@@ -48,6 +48,7 @@ public class DashBoardController {
     public RadioButton Reservation_Payments_done;
     public JFXButton btn_next;
     public JFXTextField txt_res_student_name;
+    public JFXButton btn_reservation;
     @FXML
     private AnchorPane dash_board_pane;
 
@@ -699,9 +700,11 @@ loadAllStudent();
             txt_res_room_Type.setText(reservation.getRoom().getType());
             resavation_date.setValue(reservation.getDate());
 
-            System.out.println(reservation.getDate());
+
         }
 
+
+        btn_reservation.setText("Update");
 
 
     }
@@ -760,55 +763,82 @@ loadAllStudent();
 
     public void Reservation_Save_On_Action(ActionEvent actionEvent) {
 
-    if(iLoveYou()){
 
 
-            if (txt_student_id.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "Student Id and Room Type CAN NOT BE NULL", "Missing Data", JOptionPane.WARNING_MESSAGE);
+//    if(iLoveYou()){
+//
+//
+//
+//
+//            if (txt_student_id.getText().equals("")) {
+//                JOptionPane.showMessageDialog(null, "Student Id and Room Type CAN NOT BE NULL", "Missing Data", JOptionPane.WARNING_MESSAGE);
+//
+//            } else {
+//
+//                Studentdto student = new Studentdto();
+//                student.setId(txt_student_id.getText());
+//
+//                Studentdto studentdto = studentService.byStudentId(txt_student_id.getText());
+//
+//                Roomdto roomdto = roomService.byId(C_box_romm_id1.getValue());
+//
+//                Roomdto room = new Roomdto();
+//                room.setRoomId(C_box_romm_id1.getValue());
+//
+//
+//                if(!Res_ID.getText().equals("")|| resavation_date.getValue().equals("")){
+//
+//
+//                if (R_btn_done.isSelected()) {
+//
+//                    reservationService.addReservation(new Reservationdto(
+//
+//
+//                            Res_ID.getText(),
+//                            resavation_date.getValue(),
+//                            R_btn_done.getText(),
+//                            studentdto,
+//                            roomdto));
+//
+//                }
+//
+//
+//                if (R_btn_later.isSelected()) {
+//
+//                    reservationService.addReservation(new Reservationdto(
+//
+//
+//                            Res_ID.getText(),
+//                            resavation_date.getValue(),
+//                            R_btn_later.getText(),
+//                            studentdto,
+//                            roomdto));
+//
+//                }
+//
+//                loadAllReservations();
+//
+//        }else {
+//                    JOptionPane.showMessageDialog(null,"Fill the request details");
+//                }
+//      }
+//    }
 
-            } else {
+        if(btn_reservation.getText().equals("Update")){
+            System.out.println("SEx");
 
-                Studentdto student = new Studentdto();
-                student.setId(txt_student_id.getText());
+            if(Reservation_Payments_done.isSelected()) {
 
-                Studentdto studentdto = studentService.byStudentId(txt_student_id.getText());
+                reservationService.updateReservation(new Reservationdto(
 
-                Roomdto roomdto = roomService.byId(C_box_romm_id1.getValue());
+                        Reservation_Payments_done.getText()
 
-                Roomdto room = new Roomdto();
-                room.setRoomId(C_box_romm_id1.getValue());
-
-                if (R_btn_done.isSelected()) {
-
-                    reservationService.addReservation(new Reservationdto(
+                ));
+            }
+            loadAllReservations();
+        }
 
 
-                            Res_ID.getText(),
-                            resavation_date.getValue(),
-                            R_btn_done.getText(),
-                            studentdto,
-                            roomdto));
-
-                }
-
-
-                if (R_btn_later.isSelected()) {
-
-                    reservationService.addReservation(new Reservationdto(
-
-
-                            Res_ID.getText(),
-                            resavation_date.getValue(),
-                            R_btn_later.getText(),
-                            studentdto,
-                            roomdto));
-
-                }
-
-                loadAllReservations();
-
-      }
-    }
    }
         public void btn_next_On_Action (ActionEvent actionEvent){
 

@@ -18,6 +18,5 @@ Reservationdto byId(String Id);
 
 List<Reservationdto> resById(String Id, Session session);
 
-
-
+Reservationdto updateReservation(Reservationdto reservationdto);
 }

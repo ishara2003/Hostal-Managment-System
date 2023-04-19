@@ -34,5 +34,4 @@ public class Navigation {
     public static void initUI(String location) throws IOException {
         Navigation.pane.getChildren().add(FXMLLoader.load(Navigation.class.getResource("/lk/sankalpa/hms/view/" + location)));
     }
-
 }

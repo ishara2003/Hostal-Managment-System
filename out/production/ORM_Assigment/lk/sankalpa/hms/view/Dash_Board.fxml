@@ -205,7 +205,7 @@
                </font>
             </JFXTextField>
          </children></Pane>
-      <Pane fx:id="thier_Pane" layoutY="150.0" prefHeight="875.0" prefWidth="1930.0" style="-fx-background-color: FFFF;" visible="false">
+      <Pane fx:id="thier_Pane" layoutY="150.0" prefHeight="875.0" prefWidth="1930.0" style="-fx-background-color: FFFF;">
          <children>
             <Label fx:id="lbl_rasavation_ID" layoutX="53.0" layoutY="54.0" text="res_ID">
                <font>
@@ -253,7 +253,7 @@
                   <Font size="18.0" />
                </font>
             </JFXTextField>
-            <JFXButton layoutX="279.0" layoutY="714.0" onAction="#Reservation_Save_On_Action" style="-fx-background-color: #001d3d;" text="Done" textFill="#b0ffb6">
+            <JFXButton fx:id="btn_reservation" layoutX="279.0" layoutY="714.0" onAction="#Reservation_Save_On_Action" style="-fx-background-color: #001d3d;" text="Done" textFill="#b0ffb6">
                <font>
                   <Font size="18.0" />
                </font>

@@ -27,5 +27,7 @@ public class Reservationdto {
     private Roomdto room;
 
 
-
+    public Reservationdto(String text) {
+        this.status=text;
+    }
 }

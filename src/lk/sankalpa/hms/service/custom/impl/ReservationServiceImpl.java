@@ -89,4 +89,23 @@ return reservationdto;
                 converter.fromReservation(reservation)).collect(Collectors.toList());
 
     }
+
+    @Override
+    public Reservationdto updateReservation(Reservationdto reservationdto) {
+        Session session1 = FactoryConfigeration.getInstance().getSession();
+        Transaction transaction = session1.beginTransaction();
+
+        try{
+
+            reservationDao.update(converter.toReservation(reservationdto),session1);
+            transaction.commit();
+            session1.close();
+
+        }catch (Exception e){
+            transaction.rollback();
+        }
+
+        return reservationdto;
+
+    }
 }

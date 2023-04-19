@@ -27,20 +27,20 @@ public class ReservationDaoImpl implements ReservationDao {
 
             session.save(entity);
 
-                Session session1 = FactoryConfigeration.getInstance().getSession();
-                Transaction transaction = session1.beginTransaction();
+//                Session session1 = FactoryConfigeration.getInstance().getSession();
+//                Transaction transaction = session1.beginTransaction();
 
-                try{
-
-
-            Room search = roomDao.search(entity.getRoom().getRoomId(), session);
-
-                search.setQyt(search.getQyt()-1);
-                transaction.commit();
-                session1.close();
-            }catch (Exception e){
-                transaction.rollback();
-            }
+//                try{
+//
+//
+//            Room search = roomDao.search(entity.getRoom().getRoomId(), session);
+//
+//                search.setQyt(search.getQyt()-1);
+//                transaction.commit();
+//                session1.close();
+//            }catch (Exception e){
+//                transaction.rollback();
+//            }
 
 
 
@@ -53,7 +53,9 @@ public class ReservationDaoImpl implements ReservationDao {
 
     @Override
     public Reservation update(Reservation entity, Session session) {
-        return null;
+
+        session.update(entity);
+        return entity;
     }
 
     @Override
@@ -64,7 +66,8 @@ public class ReservationDaoImpl implements ReservationDao {
     @Override
     public void delete(String Id, Session session) {
 
-        session.delete(Id);
+        Reservation load = session.load(Reservation.class, Id);
+        session.delete(load);
 
     }
 
