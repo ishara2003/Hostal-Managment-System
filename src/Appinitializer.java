@@ -19,8 +19,7 @@ public class Appinitializer extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("lk/sankalpa/hms/view/Dash_Board.fxml"))));
-       // primaryStage.getIcons().add(new Image("lk/sankalpa/assets/css/5.png"));
+        primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("lk/sankalpa/hms/view/login.fxml"))));
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
 

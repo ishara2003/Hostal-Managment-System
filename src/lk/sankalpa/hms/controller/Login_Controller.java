@@ -91,11 +91,16 @@ public class Login_Controller {
     }
     public void btm_Login_On_Action(ActionEvent actionEvent) throws IOException {
 
-    if(txt_user_name.getText().equals(un)||txt_password.getText().equals(pw)){
+        Session session = FactoryConfigeration.getInstance().getSession();
 
-        Navigation.navigate(Routes.PAGE_ONE,content_Page );
-    }
+        List<Userdto> userdtos = userService.allUsers(session);
 
+        for (Userdto user :userdtos) {
+            if(user.getPassword().equals(txt_password.getText()) && user.getUsername().equals(txt_user_name.getText())){
+                Navigation.navigate(Routes.PAGE_ONE,content_Page );
+
+            }
+        }
     }
     public void password_On_Action(ActionEvent actionEvent) throws IOException {
 

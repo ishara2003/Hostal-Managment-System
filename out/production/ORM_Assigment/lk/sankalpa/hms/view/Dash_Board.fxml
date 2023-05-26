@@ -205,11 +205,11 @@
                </font>
             </JFXTextField>
          </children></Pane>
-      <Pane fx:id="thier_Pane" layoutY="150.0" prefHeight="875.0" prefWidth="1930.0" style="-fx-background-color: FFFF;">
+      <Pane fx:id="thier_Pane" layoutY="150.0" prefHeight="875.0" prefWidth="1930.0" style="-fx-background-color: FFFF;" visible="false">
          <children>
             <Label fx:id="lbl_rasavation_ID" layoutX="53.0" layoutY="54.0" text="res_ID">
                <font>
-                  <Font size="30.0" />
+                  <Font size="25.0" />
                </font>
             </Label>
             <JFXDatePicker fx:id="resavation_date" layoutX="223.0" layoutY="160.0" prefHeight="32.0" prefWidth="224.0" promptText="Resavation Date" />
@@ -224,11 +224,6 @@
                </font>
             </JFXTextField>
             <JFXTextField fx:id="txt_res_room_Type" alignment="CENTER" disable="true" layoutX="81.0" layoutY="458.0" prefHeight="25.0" prefWidth="224.0" promptText="Student's Room Type">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </JFXTextField>
-            <JFXTextField fx:id="txt_do_payments" alignment="CENTER" layoutX="217.0" layoutY="568.0" prefHeight="25.0" prefWidth="224.0" promptText="Student's Room Payments">
                <font>
                   <Font size="18.0" />
                </font>
@@ -258,8 +253,16 @@
                   <Font size="18.0" />
                </font>
             </JFXButton>
-            <JFXTextField fx:id="Res_ID" layoutX="184.0" layoutY="64.0" />
-            <RadioButton fx:id="Reservation_Payments_done" layoutX="269.0" layoutY="643.0" mnemonicParsing="false" text="Done" />
+            <JFXTextField fx:id="Res_ID" layoutX="144.0" layoutY="64.0" />
+            <RadioButton fx:id="Reservation_Payments_done" layoutX="269.0" layoutY="643.0" mnemonicParsing="false" text="Done">
+               <font>
+                  <Font size="18.0" />
+               </font></RadioButton>
+            <Label layoutX="211.0" layoutY="593.0" text="Student's Room Payments" underline="true">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Pane fx:id="forth_Pane" layoutX="26.0" layoutY="196.0" prefHeight="817.0" prefWidth="1904.0" style="-fx-background-color: FFFF;" visible="false">
